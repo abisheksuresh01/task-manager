@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .task-manager {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        #task-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        #task-list li {
+            padding: 8px;
+            margin-top: 5px;
+            background: #eee;
+            cursor: pointer;
+        }
+
+        #task-list li.completed {
+            text-decoration: line-through;
+        }
+
+        #new-task-input, button {
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="task-manager">
+        <h1>Task Manager</h1>
+        <input type="text" id="new-task-input" placeholder="Add a new task..." autofocus>
+        <button onclick="addTask()">Add Task</button>
+        <ul id="task-list"></ul>
+    </div>
+    <script>
+        function addTask() {
+            const input = document.getElementById('new-task-input');
+            const taskText = input.value.trim();
+
+            if (taskText !== "") {
+                const taskList = document.getElementById('task-list');
+                const newTask = document.createElement('li');
+                newTask.textContent = taskText;
+                newTask.onclick = function() {
+                    this.classList.toggle('completed');
+                };
+                newTask.oncontextmenu = function(e) {
+                    e.preventDefault();
+                    this.remove();
+                };
+                taskList.appendChild(newTask);
+                input.value = "";  // Clear input after adding task
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('new-task-input');
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addTask();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
